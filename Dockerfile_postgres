@@ -1,0 +1,1 @@
+From postgres:14.6 as baseimage
