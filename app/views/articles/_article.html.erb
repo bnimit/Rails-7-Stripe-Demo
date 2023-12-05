@@ -1,0 +1,27 @@
+<div id="<%= dom_id article %>">
+  <div class="row">
+    <div class="col-3">
+      <% if article.thumbnail.attached? %>
+        <%= image_tag article.thumbnail.variant(:thumb) %>
+      <% end %>
+      </div>
+      <div class="col-9">
+        <h3><%= article.title %></h3>
+        uploaded by <%= article.user.email %>
+       </div> 
+    </div>
+    <p>
+      <%= article.content %>
+    </p>
+    <div class="row">
+      <% if article.file.attached? %>
+        <% if article.file.video? %>
+          <%= video_tag url_for(article.file), controls:"" %>
+        <% elsif article.file.previewable? %>
+          <div style="height:200px;width:200px">
+           <%= image_tag article.file.preview(resize_to_fit: [300,300]) %>
+         </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>
