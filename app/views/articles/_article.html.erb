@@ -5,21 +5,27 @@
         <%= image_tag article.thumbnail.variant(:thumb) %>
       <% end %>
       </div>
-      <div class="col-9">
+      <div class="col-6">
         <h3><%= article.title %></h3>
         uploaded by <%= article.user.email %>
        </div> 
-    </div>
+       <div class="col-3">
+        <%= form_with url: :create_checkout_session do |f| %>
+          <%= f.hidden_field :id, value: article.id %>
+          <%= f.submit "Buy Me", class: "btn btn-success" %>
+        <% end %>
+       </div> 
+  </div>
     <p>
       <%= article.content %>
     </p>
     <div class="row">
       <% if article.file.attached? %>
         <% if article.file.video? %>
-          <%= video_tag url_for(article.file), controls:"" %>
+          <%= video_tag url_for(article.file), :size => "100x300", controls:"" %>
         <% elsif article.file.previewable? %>
           <div style="height:200px;width:200px">
-           <%= image_tag article.file.preview(resize_to_fit: [300,300]) %>
+           <%= image_tag article.file.preview(resize_to_fit: [400,400]) %>
          </div>
       <% end %>
     <% end %>

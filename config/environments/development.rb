@@ -1,6 +1,8 @@
 require "active_support/core_ext/integer/time"
+require "stripe"
 
 Rails.application.configure do
+  Stripe.api_key = Rails.application.credentials[:stripe][:secret]
   # Settings specified here will take precedence over those in config/application.rb.
 
   # In the development environment your application's code is reloaded any time

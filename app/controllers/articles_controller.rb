@@ -1,6 +1,6 @@
 class ArticlesController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
-  before_action :set_article, only: %i[ show edit update destroy ]
+  before_action :set_article, only: %i[ show edit update destroy create_checkout_session ]
 
   # GET /articles or /articles.json
   def index
@@ -58,6 +58,20 @@ class ArticlesController < ApplicationController
     end
   end
 
+  def create_checkout_session
+    session = Stripe::Checkout::Session.create({
+      line_items: [{
+        price: 'price_1OK0WQSElIXro00wgd4yQyLx',
+        quantity: 1,
+      }],
+      mode: 'payment',
+      success_url: "http://localhost:3000/purchase_success",
+      cancel_url: article_url(@article)
+    })
+
+    redirect_to session.url, allow_other_host: true
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_article
@@ -66,6 +80,6 @@ class ArticlesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def article_params
-      params.require(:article).permit(:title, :content, :user_id)
+      params.require(:article).permit(:title, :content, :user_id, :file, :thumbnail)
     end
 end
