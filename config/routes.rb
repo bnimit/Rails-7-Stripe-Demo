@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :purchases
   get 'purchase_success', to: 'stripe#purchase_success'
   post 'create-checkout-session', to: 'articles#create_checkout_session'
   resources :articles
